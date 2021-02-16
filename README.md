@@ -35,3 +35,7 @@ Drop [RatingView.swift](https://github.com/ForceGT/RatingViewSwiftUI/blob/master
 
 * iOS 13+
 * Xcode 11+ 
+
+## Example
+
+Example code for the repository can be found [here](https://github.com/ForceGT/RatingViewSwiftUIExample)
