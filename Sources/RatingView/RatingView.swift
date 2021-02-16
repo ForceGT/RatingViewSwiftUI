@@ -9,7 +9,7 @@ public struct RatingView: View {
     // Keeping it last just for trailing closure syntax
     
     public init(ratingViewModel : RatingViewModel, onRatingTapped : @escaping ((Int) -> Void)){
-        self.ratingViewModel = RatingViewModel()
+        self.ratingViewModel = ratingViewModel
         self.onRatingTapped = onRatingTapped
     }
     // MARK: BODY
