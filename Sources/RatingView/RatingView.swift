@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
-struct RatingBarView: View {
+public struct RatingBarView: View {
     // MARK:  PROPERTIES
     /// An array of 5 values with each value giving the progress of the number of stars
     /// The progress value must be between 0.0 and 1.0 and should be given in reverse
@@ -20,7 +20,7 @@ struct RatingBarView: View {
     
     
     // MARK: BODY
-    var body: some View {
+    public var body: some View {
             VStack{
                     // Top net rating view
                     Text("\(netRate) stars").font(.largeTitle)
