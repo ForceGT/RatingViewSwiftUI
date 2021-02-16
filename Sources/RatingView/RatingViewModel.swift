@@ -31,7 +31,7 @@ public class RatingViewModel : ObservableObject {
     public var onRatingTapped : ((Int) -> Void )?
     // Keeping it last just for trailing closure syntax
     
-    public init(progressValues : [Float] = [], userRating: Int = 0, netRate: Float = 0.0, offColor: Color = Color.gray, onColor: Color = Color.accentColor, backgroundColor: Color = Color.gray, fillColor: Color = Color.accentColor, onRatingTapped : ((Int)->Void)?) {
+    public init(progressValues : [Float] = [], userRating: Int = 0, netRate: Float = 0.0, offColor: Color = Color.gray, onColor: Color = Color.accentColor, backgroundColor: Color = Color.gray, fillColor: Color = Color.accentColor, onRatingTapped : ((Int)->Void)? = nil) {
         self.progressValues = progressValues
         self.userRating = userRating
         self.netRate = netRate
