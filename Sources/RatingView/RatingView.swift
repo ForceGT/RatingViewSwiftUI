@@ -22,7 +22,7 @@ public struct RatingBarView: View {
     
     
     //MARK: INITIALIZERS
-    public init(progressValues: [Float] = [0.0,0.0,0.0,0.0,0.0], userRating: Int = 0, netRate: Float = 0.0, label: String = "", offColor: Color = Color.gray, onColor: Color = Color.accentColor, onRatingTapped: @escaping (Int) -> Void){
+    public init(progressValues: [Float], userRating: Int, netRate: Float, label: String, offColor: Color = Color.gray, onColor: Color = Color.accentColor, onRatingTapped: @escaping (Int) -> Void){
         self.progressValues = progressValues
         self.userRating = userRating
         self.netRate = netRate
