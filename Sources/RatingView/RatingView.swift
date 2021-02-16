@@ -17,11 +17,19 @@ public struct RatingBarView: View {
     var offColor = Color.gray
     /// The color of the star when selected, defaults to accentColor
     var onColor = Color.accentColor
+    /// The callback to be triggered when the rating is tapped
+    var onRatingTapped : (Int) -> Void = {_ in }
     
     
     //MARK: INITIALIZERS
-    public init(){
-        
+    public init(progressValues: [Float] = [0.0,0.0,0.0,0.0,0.0], userRating: Int = 0, netRate: Float = 0.0, label: String = "", offColor: Color = Color.gray, onColor: Color = Color.accentColor, onRatingTapped: @escaping (Int) -> Void){
+        self.progressValues = progressValues
+        self.userRating = userRating
+        self.netRate = netRate
+        self.label = label
+        self.offColor = offColor
+        self.onColor = onColor
+        self.onRatingTapped = onRatingTapped
     }
     
     
@@ -29,7 +37,7 @@ public struct RatingBarView: View {
     public var body: some View {
             VStack{
                     // Top net rating view
-                    Text("\(netRate) stars").font(.largeTitle)
+                Text("\(netRate, specifier: "%.1f") stars").font(.largeTitle)
                     Text("out of 5")
                         
                     // 5 rows for five progress bars each showing the progress value for each type of star rating
@@ -71,7 +79,7 @@ public struct RatingBarView: View {
                     .padding()
                 
                     // User Editable Rating
-                    UserEditableRating(rating: $userRating, label: label, offColor: offColor, onColor: onColor)
+                UserEditableRating(rating: $userRating, label: label, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped)
             }
             .padding(.horizontal, 8)
             
@@ -111,11 +119,13 @@ fileprivate struct UserEditableRating: View{
     /// A binding to the rating that will be edited
     @Binding var rating: Int
     /// The label that appears next to the row of stars
-    var label : String = ""
+    @State var label : String = ""
     /// The color of the star that will be displayed when not selected, defaults to gray
     var offColor = Color.gray
     /// The color of the star when selected, defaults to accentColor
     var onColor = Color.accentColor
+    
+    var onRatingTap : (Int) -> Void
     
     
     let maximumRating = 5
@@ -135,7 +145,11 @@ fileprivate struct UserEditableRating: View{
                         .font(.title)
                         .foregroundColor(number > self.rating ? self.offColor : self.onColor)
                         .onTapGesture {
-                            print("Rated \(number) stars")
+                            self.onRatingTap(number)
+                            withAnimation(.easeIn(duration: 0.75)){
+                                self.rating = number
+                            }
+                            label = String(number)
                         }
                                 
              }
