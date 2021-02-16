@@ -18,6 +18,10 @@ public struct RatingBarView: View {
     /// The color of the star when selected, defaults to accentColor
     var onColor = Color.accentColor
     
+    public init(){
+        
+    }
+    
     
     // MARK: BODY
     public var body: some View {
