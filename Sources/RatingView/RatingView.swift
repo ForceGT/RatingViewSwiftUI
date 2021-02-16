@@ -3,32 +3,16 @@ import SwiftUI
 @available(iOS 13.0, *)
 public struct RatingView: View {
     // MARK:  PROPERTIES
-    /// An array of 5 values with each value giving the progress of the number of stars
-    /// The progress value must be between 0.0 and 1.0 and should be given in reverse
-    /// The value at index 0 will correspond to the progress value for 5 star rating, 2nd for 4star rating and so on
-    @Binding public var progressValues : [Float]
-    /// Current Rating from the user if any , defaults to 0
-    @Binding public var userRating: Int
-    /// Net rating from the user if any, default to 0.0
-    @Binding public var netRate : Float
-    /// The color of the star that will be displayed when not selected, defaults to gray
-    public var offColor = Color.gray
-    /// The color of the star when selected, defaults to accentColor
-    public var onColor = Color.accentColor
-    /// The background color of the progress bar
-    var backgroundColor : Color
-    /// The fill color of the progress bar
-    var fillColor : Color
-    /// The callback to be triggered when the rating is tapped
-    public var onRatingTapped : ((Int) -> Void )?
-    // Keeping it last just for trailing closure syntax
+    @ObservedObject var ratingViewModel : RatingViewModel
     
-    
+    public init(ratingViewModel : RatingViewModel){
+        self.ratingViewModel = RatingViewModel()
+    }
     // MARK: BODY
     public var body: some View {
             VStack{
                     // Top net rating view
-                Text("\(netRate, specifier: "%.1f") stars").font(.largeTitle)
+                Text("\(ratingViewModel.netRate, specifier: "%.1f") stars").font(.largeTitle)
                     Text("out of 5")
                         
                     // 5 rows for five progress bars each showing the progress value for each type of star rating
@@ -62,7 +46,7 @@ public struct RatingView: View {
                         }
                         VStack(alignment: .leading){
                             ForEach(0..<5){item in
-                                ProgressBar(value: $progressValues[item], backgroundColor: backgroundColor, fillColor: fillColor)
+                                ProgressBar(value: $ratingViewModel.progressValues[item], backgroundColor: ratingViewModel.backgroundColor, fillColor: ratingViewModel.fillColor)
                                     .frame(height: 10)
                             }
                         }
@@ -70,7 +54,7 @@ public struct RatingView: View {
                     .padding()
                 
                     // User Editable Rating
-                UserEditableRating(rating: $userRating, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped)
+                UserEditableRating(rating: $ratingViewModel.userRating, offColor: ratingViewModel.offColor, onColor: ratingViewModel.onColor, onRatingTap: ratingViewModel.onRatingTapped)
             }
             .padding(.horizontal, 8)
             
