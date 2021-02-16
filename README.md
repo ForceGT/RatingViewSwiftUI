@@ -16,6 +16,16 @@ dependencies: [
     .package(url: "https://github.com/ForceGT/RatingViewSwiftUI", from: "1.0.0")
 ]
 ```
+## Screenshots and Previews
+
+Screens
+
+![](https://github.com/ForceGT/RatingViewSwiftUI/blob/master/Screens/RatingPreview.png) 
+
+Previews
+                                                                                        
+![](https://github.com/ForceGT/RatingViewSwiftUI/blob/master/Screens/videopreview.gif)
+
 
 ### Manually
 
