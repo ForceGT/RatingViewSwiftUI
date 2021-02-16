@@ -27,11 +27,9 @@ public class RatingViewModel : ObservableObject {
     public var backgroundColor : Color = Color.gray
     /// The fill color of the progress bar
     public var fillColor : Color = Color.accentColor
-    /// The callback to be triggered when the rating is tapped
-    public var onRatingTapped : ((Int) -> Void )?
-    // Keeping it last just for trailing closure syntax
     
-    public init(progressValues : [Float] = [], userRating: Int = 0, netRate: Float = 0.0, offColor: Color = Color.gray, onColor: Color = Color.accentColor, backgroundColor: Color = Color.gray, fillColor: Color = Color.accentColor, onRatingTapped : ((Int)->Void)? = nil) {
+    
+    public init(progressValues : [Float] = [], userRating: Int = 0, netRate: Float = 0.0, offColor: Color = Color.gray, onColor: Color = Color.accentColor, backgroundColor: Color = Color.gray, fillColor: Color = Color.accentColor) {
         self.progressValues = progressValues
         self.userRating = userRating
         self.netRate = netRate
@@ -39,7 +37,7 @@ public class RatingViewModel : ObservableObject {
         self.onColor = onColor
         self.backgroundColor = backgroundColor
         self.fillColor = fillColor
-        self.onRatingTapped = onRatingTapped
+        
     }
     
     

@@ -4,9 +4,13 @@ import SwiftUI
 public struct RatingView: View {
     // MARK:  PROPERTIES
     @ObservedObject var ratingViewModel : RatingViewModel
+    /// The callback to be triggered when the rating is tapped
+    public var onRatingTapped : ((Int) -> Void)?
+    // Keeping it last just for trailing closure syntax
     
-    public init(ratingViewModel : RatingViewModel){
+    public init(ratingViewModel : RatingViewModel, onRatingTapped : @escaping ((Int) -> Void)){
         self.ratingViewModel = RatingViewModel()
+        self.onRatingTapped = onRatingTapped
     }
     // MARK: BODY
     public var body: some View {
@@ -54,7 +58,7 @@ public struct RatingView: View {
                     .padding()
                 
                     // User Editable Rating
-                UserEditableRating(rating: $ratingViewModel.userRating, offColor: ratingViewModel.offColor, onColor: ratingViewModel.onColor, onRatingTap: ratingViewModel.onRatingTapped)
+                UserEditableRating(rating: $ratingViewModel.userRating, offColor: ratingViewModel.offColor, onColor: ratingViewModel.onColor, onRatingTap: self.onRatingTapped)
             }
             .padding(.horizontal, 8)
             
