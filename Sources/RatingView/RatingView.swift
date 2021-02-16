@@ -1,37 +1,27 @@
 import SwiftUI
 
 @available(iOS 13.0, *)
-public struct RatingBarView: View {
+public struct RatingView: View {
     // MARK:  PROPERTIES
     /// An array of 5 values with each value giving the progress of the number of stars
     /// The progress value must be between 0.0 and 1.0 and should be given in reverse
     /// The value at index 0 will correspond to the progress value for 5 star rating, 2nd for 4star rating and so on
-    @State public var progressValues : [Float] = [0.0,0.0,0.0,0.0,0.0]
+    @Binding public var progressValues : [Float]
     /// Current Rating from the user if any , defaults to 0
-    @State public var userRating: Int = 0
+    @Binding public var userRating: Int
     /// Net rating from the user if any, default to 0.0
-    @State public var netRate : Float = 0.0
-    /// The label that appears next to the row of stars
-    public var label : String = ""
+    @Binding public var netRate : Float
     /// The color of the star that will be displayed when not selected, defaults to gray
     public var offColor = Color.gray
     /// The color of the star when selected, defaults to accentColor
     public var onColor = Color.accentColor
+    /// The background color of the progress bar
+    var backgroundColor : Color
+    /// The fill color of the progress bar
+    var fillColor : Color
     /// The callback to be triggered when the rating is tapped
     public var onRatingTapped : ((Int) -> Void )?
-    
-    
-    //MARK: INITIALIZERS
-    public init(progressValues: [Float], userRating: Int, netRate: Float, label: String, offColor: Color = Color.gray, onColor: Color = Color.accentColor, onRatingTapped: @escaping (Int) -> Void){
-        
-        self.progressValues = progressValues
-        self.userRating = userRating
-        self.netRate = netRate
-        self.label = label
-        self.offColor = offColor
-        self.onColor = onColor
-        self.onRatingTapped = onRatingTapped
-    }
+    // Keeping it last just for trailing closure syntax
     
     
     // MARK: BODY
@@ -72,7 +62,7 @@ public struct RatingBarView: View {
                         }
                         VStack(alignment: .leading){
                             ForEach(0..<5){item in
-                                ProgressBar(value: $progressValues[item])
+                                ProgressBar(value: $progressValues[item], backgroundColor: backgroundColor, fillColor: fillColor)
                                     .frame(height: 10)
                             }
                         }
@@ -80,7 +70,7 @@ public struct RatingBarView: View {
                     .padding()
                 
                     // User Editable Rating
-                UserEditableRating(rating: $userRating, label: label, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped!)
+                UserEditableRating(rating: $userRating, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped)
             }
             .padding(.horizontal, 8)
             
@@ -92,7 +82,12 @@ public struct RatingBarView: View {
 
 fileprivate struct ProgressBar: View {
     //MARK: PROPERTIES
+    /// The value of the progress Bar
     @Binding var value: Float
+    /// The unfilled/background color of the progress bar
+    var backgroundColor = Color.gray
+    /// The fill color of the progress bar
+    var fillColor = Color.accentColor
     
     //MARK: BODY
     var body: some View {
@@ -101,11 +96,11 @@ fileprivate struct ProgressBar: View {
             ZStack(alignment: .leading){
                 Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
                     .opacity(0.3)
-                    .foregroundColor(Color(UIColor.gray))
+                    .foregroundColor(backgroundColor)
                 
                 Rectangle()
                     .frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width), height: geometry.size.height)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(fillColor)
                     .animation(.easeIn)
             }.cornerRadius(45.0)
             
@@ -126,7 +121,7 @@ fileprivate struct UserEditableRating: View{
     /// The color of the star when selected, defaults to accentColor
     var onColor = Color.accentColor
     
-    var onRatingTap : (Int) -> Void
+    var onRatingTap : ((Int) -> Void)?
     
     
     let maximumRating = 5
@@ -146,7 +141,9 @@ fileprivate struct UserEditableRating: View{
                         .font(.title)
                         .foregroundColor(number > self.rating ? self.offColor : self.onColor)
                         .onTapGesture {
-                            self.onRatingTap(number)
+                            if let onRatingTap = onRatingTap{
+                                onRatingTap(number)
+                            }
                             withAnimation(.easeIn(duration: 0.75)){
                                 self.rating = number
                             }
