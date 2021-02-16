@@ -6,13 +6,13 @@ public struct RatingBarView: View {
     /// An array of 5 values with each value giving the progress of the number of stars
     /// The progress value must be between 0.0 and 1.0 and should be given in reverse
     /// The value at index 0 will correspond to the progress value for 5 star rating, 2nd for 4star rating and so on
-    @State public var progressValues : [Float]?
+    @State public var progressValues : [Float] = [0.0,0.0,0.0,0.0,0.0]
     /// Current Rating from the user if any , defaults to 0
-    @State public var userRating: Int?
+    @State public var userRating: Int = 0
     /// Net rating from the user if any, default to 0.0
-    @State public var netRate : Float?
+    @State public var netRate : Float = 0.0
     /// The label that appears next to the row of stars
-    public var label : String?
+    public var label : String = ""
     /// The color of the star that will be displayed when not selected, defaults to gray
     public var offColor = Color.gray
     /// The color of the star when selected, defaults to accentColor
@@ -80,7 +80,7 @@ public struct RatingBarView: View {
                     .padding()
                 
                     // User Editable Rating
-                UserEditableRating(rating: $userRating, label: label, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped)
+                UserEditableRating(rating: $userRating, label: label, offColor: offColor, onColor: onColor, onRatingTap: onRatingTapped!)
             }
             .padding(.horizontal, 8)
             
