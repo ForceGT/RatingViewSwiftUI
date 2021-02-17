@@ -1,4 +1,4 @@
-<p><h1 align="left">Popup View</h1></p>
+<p><h1 align="left">Rating View</h1></p>
 
 
 # Usage
